@@ -1,0 +1,93 @@
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-student-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.admin-student-card:hover {
+  border-color: var(--border-light);
+}
+
+.asc-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+
+.asc-summary:hover { background: var(--bg-hover); }
+
+.asc-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.asc-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge-full {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.asc-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 150px;
+}
+
+.prog-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.expand-icon {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.asc-detail {
+  border-top: 1px solid var(--border);
+  padding: 16px 20px;
+  overflow-x: auto;
+}
+
+.override-btn {
+  font-size: 12px;
+  padding: 4px 10px;
+  color: var(--yellow);
+  border-color: var(--yellow)33;
+}
+
+.override-btn:hover {
+  background: var(--yellow-light);
+}
+
+.empty-card {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px;
+}

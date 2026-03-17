@@ -1,0 +1,179 @@
+.dashboard-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 32px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-card.approved { border-color: var(--green)33; }
+.stat-card.pending  { border-color: var(--yellow)33; }
+.stat-card.rejected { border-color: var(--red)33; }
+
+.stat-icon { font-size: 28px; }
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.all-approved-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--green-light);
+  border: 1px solid var(--green)44;
+  border-radius: var(--radius);
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.all-approved-banner strong { color: var(--green); font-size: 15px; }
+.all-approved-banner p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.progress-card {
+  margin-bottom: 20px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--green));
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.approval-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.approval-table th {
+  text-align: left;
+  padding: 10px 12px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+
+.approval-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border)66;
+  color: var(--text-secondary);
+}
+
+.approval-table tr:last-child td { border-bottom: none; }
+
+.approval-table tr:hover td { background: var(--bg-hover); }
+
+.row-approved td { border-left: 3px solid transparent; }
+.row-approved:hover td:first-child { border-left-color: var(--green); }
+.row-rejected:hover td:first-child { border-left-color: var(--red); }
+.row-pending:hover td:first-child { border-left-color: var(--yellow); }
+
+.td-num { color: var(--text-muted); font-size: 13px; width: 40px; }
+.td-subject { font-weight: 500; color: var(--text-primary); min-width: 200px; }
+.td-code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent-blue); }
+.td-faculty { min-width: 160px; }
+.td-remark { max-width: 200px; font-size: 13px; color: var(--yellow); }
+.td-date { white-space: nowrap; font-size: 12px; }
+
+.attendance-pill {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.attendance-pill.ok  { background: var(--green-light); color: var(--green); }
+.attendance-pill.low { background: var(--red-light);   color: var(--red);   }
+
+.no-remark { color: var(--text-muted); }
+.empty-msg { color: var(--text-muted); padding: 24px 0; text-align: center; }
