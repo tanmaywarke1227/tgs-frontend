@@ -172,3 +172,42 @@
   gap: 10px;
   margin-top: 8px;
 }
+
+/* Submission Table Stylings */
+.faculty-submission-table {
+  width: 100%;
+}
+
+.center-col {
+  text-align: center !important;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent-blue);
+}
+
+.custom-checkbox:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.row-verified td {
+  background-color: var(--bg-hover) !important;
+  color: var(--text-muted) !important;
+}
+
+.td-name strong {
+  color: var(--text-primary);
+}
+
+.row-verified .td-name strong {
+  color: var(--text-muted);
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+}

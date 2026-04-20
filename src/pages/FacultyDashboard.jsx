@@ -7,6 +7,7 @@ import './FacultyDashboard.css';
 export default function FacultyDashboard() {
   const { user } = useAuth();
   const [data, setData] = useState(null);
+  const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('pending');
@@ -18,8 +19,12 @@ export default function FacultyDashboard() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await api.get('/api/faculty/pending');
+      const [res, subRes] = await Promise.all([
+        api.get('/api/faculty/pending'),
+        api.get('/api/faculty/submissions')
+      ]);
       setData(res.data);
+      setSubmissions(subRes.data.submissions || []);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load data.');
     } finally {
@@ -59,6 +64,35 @@ export default function FacultyDashboard() {
       setActionMsg(`❌ ${err.response?.data?.error || 'Action failed.'}`);
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const handleSubChange = async (submissionId, field, value) => {
+    // Optimistic update
+    setSubmissions(prev => 
+      prev.map(s => s.submissionId === submissionId ? { ...s, [field]: value } : s)
+    );
+    try {
+      await api.put('/api/faculty/update-submission', {
+        submissionId,
+        [field]: value
+      });
+    } catch (err) {
+      // Revert on error
+      fetchData();
+      alert(`Update failed: ${err.response?.data?.error || 'Unknown error'}`);
+    }
+  };
+
+  const handleVerify = async (submissionId) => {
+    if (!window.confirm("Are you sure you want to verify this student? This action cannot be undone and locks the row.")) return;
+    
+    try {
+      await api.post('/api/faculty/verify-submission', { submissionId });
+      alert("Submission verified successfully!");
+      fetchData(); // Refresh to lock row
+    } catch (err) {
+      alert(`Verification failed: ${err.response?.data?.error || 'All TAS and Assignments must be completed'}`);
     }
   };
 
@@ -127,21 +161,80 @@ export default function FacultyDashboard() {
 
         {/* Tabs */}
         <div className="tabs">
-          {['pending','approved','rejected','all'].map(tab => (
+          {['pending','approved','rejected','all', 'submissions'].map(tab => (
             <button
               key={tab}
               className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              <span className="tab-count">{lists[tab].length}</span>
+              {tab === 'submissions' ? 'Submission Tracking' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab !== 'submissions' && <span className="tab-count">{lists[tab].length}</span>}
             </button>
           ))}
         </div>
 
-        {/* Student Cards */}
+        {/* Rendering depending on active tab */}
         {loading ? (
           <div className="loading-center"><div className="spinner" /></div>
+        ) : activeTab === 'submissions' ? (
+          <div className="card">
+            {submissions.length === 0 ? (
+              <p className="empty-card">No submissions tracking data found.</p>
+            ) : (
+              <div className="table-wrapper">
+                <table className="approval-table faculty-submission-table">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Subject</th>
+                      <th>TA 1</th>
+                      <th>TA 2</th>
+                      <th>Repeat TA</th>
+                      <th>Assign 1</th>
+                      <th>Assign 2</th>
+                      <th>Assign 3</th>
+                      <th>Verification</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {submissions.map(s => (
+                      <tr key={s.submissionId} className={s.is_verified ? "row-verified" : ""}>
+                        <td className="td-name">
+                          <strong>{s.studentName}</strong>
+                        </td>
+                        <td className="td-subject">{s.subjectName}</td>
+                        {["ta1", "ta2", "repeat_ta", "assignment1", "assignment2", "assignment3"].map(field => (
+                          <td key={field} className="center-col">
+                            <input 
+                              type="checkbox" 
+                              className="custom-checkbox"
+                              checked={s[field]} 
+                              disabled={s.is_verified}
+                              onChange={(e) => handleSubChange(s.submissionId, field, e.target.checked)} 
+                            />
+                          </td>
+                        ))}
+                        <td>
+                          {s.is_verified ? (
+                            <span className="badge badge-approved">Verified ✅</span>
+                          ) : (
+                            <button 
+                              className="btn btn-sm btn-success" 
+                              onClick={() => handleVerify(s.submissionId)}
+                              disabled={!(s.ta1 && s.ta2 && s.assignment1 && s.assignment2 && s.assignment3)}
+                              title={!(s.ta1 && s.ta2 && s.assignment1 && s.assignment2 && s.assignment3) ? "Complete all requirements first" : "Mark as verified"}
+                            >
+                              Verify
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         ) : currentList.length === 0 ? (
           <div className="card empty-card">
             <p>No students in this category.</p>

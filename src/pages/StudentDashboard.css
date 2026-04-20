@@ -177,3 +177,136 @@
 
 .no-remark { color: var(--text-muted); }
 .empty-msg { color: var(--text-muted); padding: 24px 0; text-align: center; }
+
+/* Submissions Specific CSS */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eligibility-notice {
+  font-size: 12px;
+  color: var(--yellow);
+  background: var(--yellow-light);
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--yellow);
+}
+
+.submission-table {
+  width: 100%;
+}
+
+.center-col {
+  text-align: center !important;
+}
+
+.status-ok {
+  color: var(--green);
+  font-weight: bold;
+}
+
+.status-err {
+  color: var(--red);
+  font-weight: bold;
+}
+
+.status-na {
+  color: var(--text-muted);
+}
+
+.verified-by {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Modal Stylings */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: var(--shadow);
+}
+
+.doc-modal .doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.doc-content {
+  border: 4px double var(--border);
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: var(--bg-card);
+}
+
+.doc-brand h2 {
+  font-size: 24px;
+  color: var(--accent-blue);
+  margin-bottom: 5px;
+}
+
+.doc-brand p {
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.doc-body {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 50px;
+}
+
+.doc-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.doc-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .doc-content, .doc-content * {
+    visibility: visible;
+  }
+  
+  .doc-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    border: none;
+    box-shadow: none;
+  }
+}
